@@ -88,7 +88,7 @@
 \newif\if@altadvisor
 \@altadvisorfalse
 
-% \renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\contentsname}{Table of Contents}
 % \renewcommand{\bibname}{References}
 
 \ifx\@pdfoutput\@undefined
