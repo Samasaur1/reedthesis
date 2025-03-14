@@ -32,6 +32,10 @@
     bindingoffset=0.5in
 ]{geometry}
 
+\RequirePackage[
+    hidelinks
+]{hyperref}
+
 \RequirePackage{biblatex}
 \addbibresource{bibliography.bib}
 
