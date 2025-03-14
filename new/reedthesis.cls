@@ -39,23 +39,30 @@
 \RequirePackage{biblatex}
 \addbibresource{bibliography.bib}
 
+\RequirePackage{fancyhdr}
 
-% % Stolen from book.cls and modified
-% \let\RToldchapter\chapter
-% \renewcommand{\chapter}{\if@openright\RTcleardoublepage
-% 		    \else\clearpage\fi
-% 		    \thispagestyle{empty}%
-% 		    \global\@topnum\z@
-% 		    \@afterindentfalse
-% 		    \secdef\@chapter\@schapter}
+% Stolen from latex.ltx and modified
+% to set pagestyle to empty on the
+% inserted (left-hand) page
+\newcommand{\RTcleardoublepage}{
+	\clearpage\if@twoside \ifodd\c@page\else
+	\thispagestyle{empty}\hbox{}\newpage
+	\if@twocolumn\hbox{}\newpage\fi\fi\fi}
 
-% \newcommand{\RTcleardoublepage}{
-% 	\clearpage\if@twoside \ifodd\c@page\else
-% 	\thispagestyle{empty}\hbox{}\newpage
-% 	\if@twocolumn\hbox{}\newpage\fi\fi\fi}
-%
-% \let\RToldcleardoublepage\cleardoublepage
-% \renewcommand{\cleardoublepage}{\RTcleardoublepage}
+% All usages of \cleardoublepage should honor
+% the behavior described above.
+\let\RToldcleardoublepage\cleardoublepage
+\renewcommand{\cleardoublepage}{\RTcleardoublepage}
+
+% Stolen from book.cls and modified
+% to set pagestyle to empty instead of plain
+% on the first page of each chapter
+\let\RToldchapter\chapter
+\renewcommand{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi
+                    \thispagestyle{empty}%
+                    \global\@topnum\z@
+                    \@afterindentfalse
+                    \secdef\@chapter\@schapter}
 
 % % adjust margins for binding  (changed 2007-04-24 tgp)
 % \setlength{\oddsidemargin}{.5in}
