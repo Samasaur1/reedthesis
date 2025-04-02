@@ -24,7 +24,6 @@
 %
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{reedthesis}[2025/03/14 The Reed College Thesis Class]
-
 \LoadClassWithOptions{book}
 
 \RequirePackage[
@@ -37,10 +36,32 @@
 ]{hyperref}
 
 \RequirePackage{biblatex}
+
 \addbibresource{bibliography.bib}
 
 \RequirePackage{fancyhdr}
-
+% TODO: lets make style options enabled by default l&r
+\DeclareOption{tocsectiondots}{
+  \renewcommand\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\normalfont
+      \leaders\hbox{$\m@th \mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill
+      \nobreak\hb@xt@\@pnumwidth{\bfseries \hss #2}\par
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+}
+% Until necessary, we process options in order of declaration.
+\ProcessOptions\relax
 % Stolen from latex.ltx and modified
 % to set pagestyle to empty on the
 % inserted (left-hand) page
