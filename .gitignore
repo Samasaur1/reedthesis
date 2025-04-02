@@ -12,3 +12,4 @@
 *.run.xml
 *.toc
 thesis.pdf
+*.synctex.gz
