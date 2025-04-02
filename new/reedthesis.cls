@@ -42,6 +42,7 @@
 
 \RequirePackage{fancyhdr}
 % TODO: lets make style options enabled by default l&r
+% This adds the ToC dots between section titles and their respective (bolded) page numbers.
 \DeclareOption{tocsectiondots}{
   \renewcommand\l@chapter[2]{%
   \ifnum \c@tocdepth >\m@ne
