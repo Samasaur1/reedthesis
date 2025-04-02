@@ -24,6 +24,7 @@
 %
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{reedthesis}[2025/03/14 The Reed College Thesis Class]
+
 \LoadClassWithOptions{book}
 
 \RequirePackage[
