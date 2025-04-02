@@ -42,8 +42,8 @@
 
 \RequirePackage{fancyhdr}
 % TODO: lets make style options enabled by default l&r
-% This adds the ToC dots between section titles and their respective (bolded) page numbers.
-\DeclareOption{tocsectiondots}{
+% This adds the ToC dots between chapter titles and their respective (bolded) page numbers.
+\DeclareOption{tocchapterdots}{
   \renewcommand\l@chapter[2]{%
   \ifnum \c@tocdepth >\m@ne
     \addpenalty{-\@highpenalty}%
@@ -62,8 +62,36 @@
     \endgroup
   \fi}
 }
+
+% This option shows "Chapter 1" in ToC instead of the default "1."
+\DeclareOption{tocchaptername}{
+  % Stolen from book.cls PBC 5/12/05
+  \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+    \if@mainmatter
+      \refstepcounter{chapter}%
+      \typeout{\@chapapp\space\thechapter.}%
+      \addcontentsline{toc}{chapter}%
+      {\@chapapp\space\thechapter:\space#1}%
+    \else
+      \addcontentsline{toc}{chapter}{#1}%
+    \fi
+  \else
+    \addcontentsline{toc}{chapter}{#1}%
+  \fi
+  \chaptermark{#1}%
+  \addtocontents{lof}{\protect\addvspace{10\p@}}%
+  \addtocontents{lot}{\protect\addvspace{10\p@}}%
+  \if@twocolumn
+    \@topnewpage[\@makechapterhead{#2}]%
+  \else
+    \@makechapterhead{#2}%
+    \@afterheading
+  \fi}
+}
+
 % Until necessary, we process options in order of declaration.
 \ProcessOptions\relax
+
 % Stolen from latex.ltx and modified
 % to set pagestyle to empty on the
 % inserted (left-hand) page
