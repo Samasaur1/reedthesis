@@ -10,6 +10,7 @@
 % May 2005 Patrick Carlisle Table of contents chapter definition
 % 2004-2005 Ben Salzberg (BTS) a variety of tweaks here and in the template
 % 2025 Sam Gauck rewrite and drastically simplify template
+% 2025 Tristan Figueroa-Reid add additional customization options
 %
 % Oddities:
 %
@@ -68,8 +69,35 @@
 \headersmallcapsfalse
 \DeclareOption{headersmallcaps}{\headersmallcapstrue}
 
+% Enables colored links. By default, these are blue.
+\newif\ifcoloredlinks
+\coloredlinksfalse
+\DeclareOption{coloredlinks}{\coloredlinkstrue}
+
+% Enables multicolored links that are not just blue.
+\newif\ifmulticoloredlinks
+\multicoloredlinksfalse
+\DeclareOption{multicoloredlinks}{\multicoloredlinkstrue}
+
 % Until necessary, we process options in order of declaration.
 \ProcessOptions\relax
+
+\ifmulticoloredlinks
+  \usepackage[ocgcolorlinks]{ocgx2}
+
+  \ifcoloredlinks
+    \ClassWarning{reedcls}{Please only choose between colored links and multicolored links - by default, we have preferred multicolored links.}
+  \fi
+\else
+  \hypersetup{
+    colorlinks = true,
+    allcolors = blue
+  }
+
+  \ifcoloredlinks
+    \usepackage[ocgcolorlinks]{ocgx2}
+  \fi
+\fi
 
 % Header/footer rules
 \AtBeginDocument{%
