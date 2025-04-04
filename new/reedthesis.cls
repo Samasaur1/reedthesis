@@ -41,9 +41,23 @@
 \addbibresource{bibliography.bib}
 
 \RequirePackage{fancyhdr}
-% TODO: lets make style options enabled by default l&r
-% This adds the ToC dots between chapter titles and their respective (bolded) page numbers.
-\DeclareOption{tocchapterdots}{
+
+% Option conditionals
+% We use conditionals to make some options default-first, and streamline
+% the option declaration process.
+\newif\iftocchapterdots
+\tocchapterdotstrue
+\newif\iftocchaptername
+\tocchapternametrue
+
+% This disables the ToC dots between chapter titles and their respective (bolded) page numbers.
+\DeclareOption{disabletocchapterdots}{\tocchapterdotsfalse}
+\DeclareOption{disabletocchaptername}{\tocchapternamefalse}
+
+% Until necessary, we process options in order of declaration.
+\ProcessOptions\relax
+
+\iftocchapterdots
   \renewcommand\l@chapter[2]{%
   \ifnum \c@tocdepth >\m@ne
     \addpenalty{-\@highpenalty}%
@@ -61,10 +75,10 @@
       \penalty\@highpenalty
     \endgroup
   \fi}
-}
+\fi
 
 % This option shows "Chapter 1" in ToC instead of the default "1."
-\DeclareOption{tocchaptername}{
+\iftocchaptername
   % Stolen from book.cls PBC 5/12/05
   \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
     \if@mainmatter
@@ -87,10 +101,7 @@
     \@makechapterhead{#2}%
     \@afterheading
   \fi}
-}
-
-% Until necessary, we process options in order of declaration.
-\ProcessOptions\relax
+\fi
 
 % Stolen from latex.ltx and modified
 % to set pagestyle to empty on the
