@@ -45,17 +45,53 @@
 % Option conditionals
 % We use conditionals to make some options default-first, and streamline
 % the option declaration process.
-\newif\iftocchapterdots
-\tocchapterdotstrue
-\newif\iftocchaptername
-\tocchapternametrue
 
 % This disables the ToC dots between chapter titles and their respective (bolded) page numbers.
+\newif\iftocchapterdots
+\tocchapterdotstrue
 \DeclareOption{disabletocchapterdots}{\tocchapterdotsfalse}
+
+% This disables "Chapter N" naming in the ToC, opting for "N" instead.
+\newif\iftocchaptername
+\tocchapternametrue
 \DeclareOption{disabletocchaptername}{\tocchapternamefalse}
+
+% This makes the chapter title in the header all caps - 
+% note that this applies to both the left and right pages.
+\newif\ifheaderuppercase
+\headeruppercasefalse
+\DeclareOption{headeruppercase}{\headeruppercasetrue}
+
+% This makes the chapter title in the header small caps - 
+% note that this applies to both the left and right pages.
+\newif\ifheadersmallcaps
+\headersmallcapsfalse
+\DeclareOption{headersmallcaps}{\headersmallcapstrue}
 
 % Until necessary, we process options in order of declaration.
 \ProcessOptions\relax
+
+% Header/footer rules
+\AtBeginDocument{%
+  \fancyhf{} % hide old headers/footers
+  \fancyhead[LE,RO]{\thepage} % show page numbers
+  \ifheaderuppercase
+    \fancyhead[RE]{\slshape \leftmark}
+    \fancyhead[LO]{\slshape \rightmark}
+    \ifheadersmallcaps
+      \ClassWarning{reedcls}{You enabled both header upper case and header small caps - please only use one. By default, we've used header upper case}
+    \fi
+  \else
+    \ifheadersmallcaps
+      \fancyhead[RE]{\footnotesize \itshape \leftmark}
+      \fancyhead[LO]{\footnotesize \itshape \rightmark}
+    \else
+      \fancyhead[RE]{\slshape \nouppercase \leftmark}
+      \fancyhead[LO]{\slshape \nouppercase \rightmark}
+    \fi
+  \fi
+  \pagestyle{fancy}
+}
 
 \iftocchapterdots
   \renewcommand\l@chapter[2]{%
