@@ -89,12 +89,12 @@
     \ClassWarning{reedcls}{Please only choose between colored links and multicolored links - by default, we have preferred multicolored links.}
   \fi
 \else
-  \hypersetup{
-    colorlinks = true,
-    allcolors = blue
-  }
-
   \ifcoloredlinks
+    \hypersetup{
+      colorlinks = true,
+      allcolors = blue
+    }  
+  
     \usepackage[ocgcolorlinks]{ocgx2}
   \fi
 \fi
