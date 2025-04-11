@@ -48,8 +48,9 @@
 % Comment out the natbib line above and uncomment the following two lines to use the new 
 % biblatex-chicago style, for Chicago A. Also make some changes at the end where the 
 % bibliography is included. 
-%\usepackage{biblatex-chicago}
-%\bibliography{thesis}
+\usepackage[english]{babel}
+\usepackage{biblatex-chicago}
+% \bibliography{thesis}
 
 % \usepackage{times} % other fonts are available like times, bookman, charter, palatino
 
@@ -511,10 +512,7 @@ And here's some other random info: the first paragraph after a chapter title or 
 
 %    \bibliographystyle{bsts/mla-good} % there are a variety of styles available; 
 %  \bibliographystyle{plainnat}
-% replace ``plainnat'' with the style of choice. You can refer to files in the bsts or APA 
-% subfolder, e.g. 
- % Comment the above two lines and uncomment the next line to use biblatex-chicago.
- \printbibliography[heading=bibintoc]
+\printbibliography[heading=bibintoc]
 
 % Finally, an index would go here... but it is also optional.
 \end{document}
