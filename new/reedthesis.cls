@@ -259,13 +259,15 @@
 \renewcommand{\contentsname}{Table of Contents}
 % \renewcommand{\bibname}{References}
 
-\ifx\@pdfoutput\@undefined
-  \newcommand{\RTpercent}{\@percentchar\space}
-  \AtBeginDvi{\special{!\RTpercent Reed College LaTeX Thesis Class 2001/12/04 SN}} 
-  \AtBeginDvi{\special{rawpostscript \RTpercent Reed College LaTeX Thesis Class 2001/12/04 SN}} 
-\else
-  \AtEndDocument{\pdfinfo{/Creator	(Reed College LaTeX Thesis Class 2001/12/04 SN)}} 
-\fi
+\AtEndPreamble{
+  \hypersetup{
+    pdfauthor=\@author,
+    pdfcreator={Reed College LaTeX Thesis Class SN DP PC BTS SG TFR},
+    % pdfproducer=c,
+    % pdfsubject=d,
+    pdftitle=\@title,
+  }
+}
 
 % I hacked the title page to all be the same font size 
 % as requested by the library, BTS 2005
