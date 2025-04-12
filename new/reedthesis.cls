@@ -28,6 +28,30 @@
 
 \LoadClassWithOptions{book}
 
+\DeclareKeys[reedthesis]{
+    bibstyle.store = \@reedthesis@bibstyle,
+    bibstyle.usage = load
+}
+
+% \DeclareUnknownKeyHandler{}
+
+\ProcessKeyOptions[reedthesis]
+\ClassInfo{reedthesis}{bibstyle: \@reedthesis@bibstyle}
+
+\RequirePackage{xstring}
+
+\IfEq{\@reedthesis@bibstyle}{chicago}
+{% if true
+    \ClassInfo{reedthesis}{Selecting biblatex-chicago}
+    \RequirePackage{biblatex-chicago}
+}
+{
+    \ClassInfo{reedthesis}{Selecting biblatex}
+    \RequirePackage[style=\@reedthesis@bibstyle]{biblatex}
+}
+
+\addbibresource{bibliography.bib}
+
 \RequirePackage[
     margin=1in,
     bindingoffset=0.5in
@@ -36,10 +60,6 @@
 \RequirePackage[
     hidelinks
 ]{hyperref}
-
-\RequirePackage{biblatex}
-
-\addbibresource{bibliography.bib}
 
 \RequirePackage{fancyhdr}
 

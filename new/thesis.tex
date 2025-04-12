@@ -34,7 +34,8 @@
 %	- If you go to print, and links don't show up, check your engine! This should work fine on Overleaf, but you may need to
 %		change which LaTeX engine you use (e.g. for LaTeX Workshop on Visual Studio Code, use the recipe `pdflatex')
 % - `multicoloredlinks` - displays colorful colored links - `coloredlinks` is preferred.
-\documentclass[12pt,twoside]{reedthesis}
+% - `bibstyle` - choose the bibliography style in use. defaults to numeric
+\documentclass[bibstyle=ieee,12pt,twoside]{reedthesis}
 % Packages are extensions to the basic LaTeX functions. Whatever you
 % want to typeset, there is probably a package out there for it.
 % Chemistry (chemtex), screenplays, you name it.
@@ -49,8 +50,6 @@
 % biblatex-chicago style, for Chicago A. Also make some changes at the end where the 
 % bibliography is included. 
 \usepackage[english]{babel}
-\usepackage{biblatex-chicago}
-% \bibliography{thesis}
 
 % \usepackage{times} % other fonts are available like times, bookman, charter, palatino
 
