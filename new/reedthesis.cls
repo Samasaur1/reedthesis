@@ -36,17 +36,38 @@
     tocchapterdots.if      = @reedthesis@tocchapterdots,
 % This enables "Chapter N" naming in the ToC, opting for "N" instead.
     tocchaptername.if      = @reedthesis@tocchaptername,
+    headerstyle .choice:,
+    headerstyle / uppercase .code = \@reedthesis@headeruppercasetrue,
+    headerstyle / smallcaps .code = \@reedthesis@headersmallcapstrue,
 % This makes the chapter title in the header all caps - 
 % note that this applies to both the left and right pages.
-    headeruppercase.if     = @reedthesis@headeruppercase,
+    % headeruppercase.if     = @reedthesis@headeruppercase,
 % This makes the chapter title in the header small caps - 
 % note that this applies to both the left and right pages.
-    headersmallcaps.if     = @reedthesis@headersmallcaps,
+    % headersmallcaps.if     = @reedthesis@headersmallcaps,
 % Enables colored links. By default, these are blue.
     coloredlinks.if        = @reedthesis@coloredlinks,
 % Enables multicolored links that are not just blue.
     multicoloredlinks.if   = @reedthesis@multicoloredlinks
 }
+
+\newif\if@reedthesis@headeruppercase
+\newif\if@reedthesis@headersmallcaps
+
+% \ExplSyntaxOn
+% % \keys_define:nn { reedthesis }
+% % {
+% %   headerstyle .choice:,
+% %   headerstyle / uppercase .if = @reedthesis@headeruppercase,
+% %   headerstyle / smallcaps .if = @reedthesis@headersmallcaps,
+% % }
+% \keys_define:nn { reedthesis }
+% {
+% headerstyle .choice:,
+% headerstyle / uppercase .code:n = \@reedthesis@headeruppercasetrue,
+% headerstyle / smallcaps .code:n = \@reedthesis@headersmallcapstrue,
+% }
+% \ExplSyntaxOff
 
 % Allegedly you are supposed to be able to provide initial values
 %   with the `.initial` property in `DeclareKeys`, but this didn't
@@ -118,6 +139,8 @@
     \fancyhead[LO]{\slshape \rightmark}
     \if@reedthesis@headersmallcaps
       \ClassWarning{reedthesis}{You enabled both header upper case and header small caps - please only use one. By default, we've used header upper case}
+    \else
+      \ClassInfo{reedthesis}{Small caps headers disabled}
     \fi
   \else
     \ClassInfo{reedthesis}{Uppercase headers disabled}
