@@ -29,25 +29,48 @@
 \LoadClassWithOptions{book}
 
 \DeclareKeys[reedthesis]{
-    bibstyle.store = \@reedthesis@bibstyle,
-    bibstyle.usage = load
+% This allows selecting the style used for the bibliography
+    bibstyle.store         = \@reedthesis@bibstyle,
+    bibstyle.usage         = load,
+% This enables the ToC dots between chapter titles and their respective (bolded) page numbers.
+    tocchapterdots.if      = @reedthesis@tocchapterdots,
+% This enables "Chapter N" naming in the ToC, opting for "N" instead.
+    tocchaptername.if      = @reedthesis@tocchaptername,
+% This makes the chapter title in the header all caps - 
+% note that this applies to both the left and right pages.
+    headeruppercase.if     = @reedthesis@headeruppercase,
+% This makes the chapter title in the header small caps - 
+% note that this applies to both the left and right pages.
+    headersmallcaps.if     = @reedthesis@headersmallcaps,
+% Enables colored links. By default, these are blue.
+    coloredlinks.if        = @reedthesis@coloredlinks,
+% Enables multicolored links that are not just blue.
+    multicoloredlinks.if   = @reedthesis@multicoloredlinks
 }
 
-% \DeclareUnknownKeyHandler{}
+% Allegedly you are supposed to be able to provide initial values
+%   with the `.initial` property in `DeclareKeys`, but this didn't
+%   work for me, so here we are.
+\@reedthesis@tocchapterdotstrue
+\@reedthesis@tocchapternametrue
+
+\DeclareUnknownKeyHandler[reedthesis]{
+  \ClassWarning{reedthesis}{Unknown option #1 (with value #2)}
+}
 
 \ProcessKeyOptions[reedthesis]
-\ClassInfo{reedthesis}{bibstyle: \@reedthesis@bibstyle}
 
 \RequirePackage{xstring}
 
+\ClassInfo{reedthesis}{Detected bibstyle: \@reedthesis@bibstyle}
 \IfEq{\@reedthesis@bibstyle}{chicago}
 {% if true
-    \ClassInfo{reedthesis}{Selecting biblatex-chicago}
-    \RequirePackage{biblatex-chicago}
+  \ClassInfo{reedthesis}{Selecting biblatex-chicago}
+  \RequirePackage{biblatex-chicago}
 }
 {
-    \ClassInfo{reedthesis}{Selecting biblatex}
-    \RequirePackage[style=\@reedthesis@bibstyle]{biblatex}
+  \ClassInfo{reedthesis}{Selecting biblatex}
+  \RequirePackage[style=\@reedthesis@bibstyle]{biblatex}
 }
 
 \addbibresource{bibliography.bib}
@@ -63,59 +86,25 @@
 
 \RequirePackage{fancyhdr}
 
-% Option conditionals
-% We use conditionals to make some options default-first, and streamline
-% the option declaration process.
-
-% This disables the ToC dots between chapter titles and their respective (bolded) page numbers.
-\newif\iftocchapterdots
-\tocchapterdotstrue
-\DeclareOption{disabletocchapterdots}{\tocchapterdotsfalse}
-
-% This disables "Chapter N" naming in the ToC, opting for "N" instead.
-\newif\iftocchaptername
-\tocchapternametrue
-\DeclareOption{disabletocchaptername}{\tocchapternamefalse}
-
-% This makes the chapter title in the header all caps - 
-% note that this applies to both the left and right pages.
-\newif\ifheaderuppercase
-\headeruppercasefalse
-\DeclareOption{headeruppercase}{\headeruppercasetrue}
-
-% This makes the chapter title in the header small caps - 
-% note that this applies to both the left and right pages.
-\newif\ifheadersmallcaps
-\headersmallcapsfalse
-\DeclareOption{headersmallcaps}{\headersmallcapstrue}
-
-% Enables colored links. By default, these are blue.
-\newif\ifcoloredlinks
-\coloredlinksfalse
-\DeclareOption{coloredlinks}{\coloredlinkstrue}
-
-% Enables multicolored links that are not just blue.
-\newif\ifmulticoloredlinks
-\multicoloredlinksfalse
-\DeclareOption{multicoloredlinks}{\multicoloredlinkstrue}
-
-% Until necessary, we process options in order of declaration.
-\ProcessOptions\relax
-
-\ifmulticoloredlinks
+\if@reedthesis@multicoloredlinks
+  \ClassInfo{reedthesis}{Multi-colored links enabled}
   \usepackage[ocgcolorlinks]{ocgx2}
 
-  \ifcoloredlinks
-    \ClassWarning{reedcls}{Please only choose between colored links and multicolored links - by default, we have preferred multicolored links.}
+  \if@reedthesis@coloredlinks
+    \ClassWarning{reedthesis}{Please only choose between colored links and multicolored links - by default, we have preferred multicolored links.}
   \fi
 \else
-  \ifcoloredlinks
+  \ClassInfo{reedthesis}{Multi-colored links disabled}
+  \if@reedthesis@coloredlinks
+    \ClassInfo{reedthesis}{Colored links enabled}
     \hypersetup{
       colorlinks = true,
       allcolors = blue
     }  
   
     \usepackage[ocgcolorlinks]{ocgx2}
+  \else
+    \ClassInfo{reedthesis}{Colored links disabled}
   \fi
 \fi
 
@@ -123,17 +112,21 @@
 \AtBeginDocument{%
   \fancyhf{} % hide old headers/footers
   \fancyhead[LE,RO]{\thepage} % show page numbers
-  \ifheaderuppercase
+  \if@reedthesis@headeruppercase
+    \ClassInfo{reedthesis}{Uppercase headers enabled}
     \fancyhead[RE]{\slshape \leftmark}
     \fancyhead[LO]{\slshape \rightmark}
-    \ifheadersmallcaps
-      \ClassWarning{reedcls}{You enabled both header upper case and header small caps - please only use one. By default, we've used header upper case}
+    \if@reedthesis@headersmallcaps
+      \ClassWarning{reedthesis}{You enabled both header upper case and header small caps - please only use one. By default, we've used header upper case}
     \fi
   \else
-    \ifheadersmallcaps
+    \ClassInfo{reedthesis}{Uppercase headers disabled}
+    \if@reedthesis@headersmallcaps
+      \ClassInfo{reedthesis}{Small caps headers enabled}
       \fancyhead[RE]{\footnotesize \itshape \leftmark}
       \fancyhead[LO]{\footnotesize \itshape \rightmark}
     \else
+      \ClassInfo{reedthesis}{Small caps headers disabled}
       \fancyhead[RE]{\slshape \nouppercase \leftmark}
       \fancyhead[LO]{\slshape \nouppercase \rightmark}
     \fi
@@ -141,7 +134,8 @@
   \pagestyle{fancy}
 }
 
-\iftocchapterdots
+\if@reedthesis@tocchapterdots
+  \ClassInfo{reedthesis}{Enabling TOC chapter dots}
   \renewcommand\l@chapter[2]{%
   \ifnum \c@tocdepth >\m@ne
     \addpenalty{-\@highpenalty}%
@@ -159,10 +153,13 @@
       \penalty\@highpenalty
     \endgroup
   \fi}
+\else
+  \ClassInfo{reedthesis}{TOC chapter dots disabled}
 \fi
 
 % This option shows "Chapter 1" in ToC instead of the default "1."
-\iftocchaptername
+\if@reedthesis@tocchaptername
+  \ClassInfo{reedthesis}{Enabling TOC chapter names}
   % Stolen from book.cls PBC 5/12/05
   \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
     \if@mainmatter
@@ -185,6 +182,8 @@
     \@makechapterhead{#2}%
     \@afterheading
   \fi}
+\else
+  \ClassInfo{reedthesis}{TOC chapter names disabled}
 \fi
 
 % Stolen from latex.ltx and modified
