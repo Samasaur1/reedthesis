@@ -34,7 +34,7 @@
     bibstyle.usage         = load,
 % This enables the ToC dots between chapter titles and their respective (bolded) page numbers.
     tocchapterdots.if      = @reedthesis@tocchapterdots,
-% This enables "Chapter N" naming in the ToC, opting for "N" instead.
+% This enables "Chapter N" naming in the ToC, instead of just "N."
     tocchaptername.if      = @reedthesis@tocchaptername,
     headerstyle .choice:,
     headerstyle / uppercase .code = \@reedthesis@headeruppercasetrue,
