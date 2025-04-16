@@ -29,25 +29,23 @@
 \LoadClassWithOptions{book}
 
 \DeclareKeys[reedthesis]{
-% This allows selecting the style used for the bibliography
+    % This allows selecting the style used for the bibliography
     bibstyle.store         = \@reedthesis@bibstyle,
     bibstyle.usage         = load,
-% This enables the ToC dots between chapter titles and their respective (bolded) page numbers.
+    % This enables the ToC dots between chapter titles and their respective (bolded) page numbers.
     tocchapterdots.if      = @reedthesis@tocchapterdots,
-% This enables "Chapter N" naming in the ToC, instead of just "N."
+    % This enables "Chapter N" naming in the ToC, instead of just "N."
     tocchaptername.if      = @reedthesis@tocchaptername,
+    % This controls the styling of the chapter title in the header.
+    % Note this applies to both the left and right groups.
     headerstyle .choice:,
+    % This makes the headers uppercase
     headerstyle / uppercase .code = \@reedthesis@headeruppercasetrue,
+    % This makes the headers small caps
     headerstyle / smallcaps .code = \@reedthesis@headersmallcapstrue,
-% This makes the chapter title in the header all caps - 
-% note that this applies to both the left and right pages.
-    % headeruppercase.if     = @reedthesis@headeruppercase,
-% This makes the chapter title in the header small caps - 
-% note that this applies to both the left and right pages.
-    % headersmallcaps.if     = @reedthesis@headersmallcaps,
-% Enables colored links. By default, these are blue.
+    % Enables colored links. By default, these are blue.
     coloredlinks.if        = @reedthesis@coloredlinks,
-% Enables multicolored links that are not just blue.
+    % Enables multicolored links that are not just blue.
     multicoloredlinks.if   = @reedthesis@multicoloredlinks
 }
 
@@ -89,7 +87,7 @@
   \ClassInfo{reedthesis}{Selecting biblatex-chicago}
   \RequirePackage{biblatex-chicago}
 }
-{
+{% if false
   \ClassInfo{reedthesis}{Selecting biblatex}
   \RequirePackage[style=\@reedthesis@bibstyle]{biblatex}
 }
@@ -138,6 +136,7 @@
     \fancyhead[RE]{\slshape \leftmark}
     \fancyhead[LO]{\slshape \rightmark}
     \if@reedthesis@headersmallcaps
+      % This can never happen because the option has been converted to a `choice` option.
       \ClassWarning{reedthesis}{You enabled both header upper case and header small caps - please only use one. By default, we've used header upper case}
     \else
       \ClassInfo{reedthesis}{Small caps headers disabled}
