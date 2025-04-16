@@ -50,10 +50,7 @@
 \usepackage{amssymb,amsthm,amsmath}
 \usepackage{longtable,booktabs,setspace} 
 \usepackage{chemarr} %% Useful for one reaction arrow, useless if you're not a chem major
-\usepackage{rotating}
-% Comment out the natbib line above and uncomment the following two lines to use the new 
-% biblatex-chicago style, for Chicago A. Also make some changes at the end where the 
-% bibliography is included. 
+\usepackage{rotating} 
 \usepackage[english]{babel}
 
 % \usepackage{times} % other fonts are available like times, bookman, charter, palatino
@@ -507,15 +504,13 @@ And here's some other random info: the first paragraph after a chapter title or 
 
   \backmatter % backmatter makes the index and bibliography appear properly in the t.o.c...
 
-% if you're using bibtex, the next line forces every entry in the bibtex file to be included
+% if you're using biblatex, the next line forces every entry in the biblatex file to be included
 % in your bibliography, regardless of whether or not you've cited it in the thesis.
     \nocite{*}
 
 % Rename my bibliography to be called "Works Cited" and not "References" or ``Bibliography''
 % \renewcommand{\bibname}{Works Cited}
 
-%    \bibliographystyle{bsts/mla-good} % there are a variety of styles available; 
-%  \bibliographystyle{plainnat}
 \printbibliography[heading=bibintoc]
 
 % Finally, an index would go here... but it is also optional.
