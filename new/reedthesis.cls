@@ -31,6 +31,8 @@
 \DeclareKeys[reedthesis]{
     % This allows selecting the style used for the bibliography
     bibstyle.store         = \@reedthesis@bibstyle,
+    % This allows selecting the name of the bibliography file
+    bibfile.store          = \@reedthesis@bibfile,
     % This controls the styling of the chapter title in the header.
     % Note this applies to both the left and right groups.
     headerstyle .choice:,
@@ -103,7 +105,10 @@
     {\RequirePackage[style=\@reedthesis@bibstyle]{biblatex}}
 }
 
-\addbibresource{bibliography.bib}
+\ClassInfo{reedthesis}{Detected bibfile: \@reedthesis@bibfile}
+\IfEq{\@reedthesis@bibfile}{}
+  {\addbibresource{bibliography.bib}}
+  {\addbibresource{\@reedthesis@bibfile}}
 
 \RequirePackage[
     margin=1in,
