@@ -31,7 +31,6 @@
 \DeclareKeys[reedthesis]{
     % This allows selecting the style used for the bibliography
     bibstyle.store         = \@reedthesis@bibstyle,
-    bibstyle.usage         = load,
     % This controls the styling of the chapter title in the header.
     % Note this applies to both the left and right groups.
     headerstyle .choice:,
