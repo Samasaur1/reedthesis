@@ -96,7 +96,12 @@
 }
 {% if false
   \ClassInfo{reedthesis}{Selecting biblatex}
-  \RequirePackage[style=\@reedthesis@bibstyle]{biblatex}
+  \IfEq{\@reedthesis@bibstyle}{}
+    {
+      \ClassWarning{reedthesis}{Did not specify a bibstyle: defaulting to numeric}
+      \RequirePackage[style=numeric]{biblatex}
+    }
+    {\RequirePackage[style=\@reedthesis@bibstyle]{biblatex}}
 }
 
 \addbibresource{bibliography.bib}
