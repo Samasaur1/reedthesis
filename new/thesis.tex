@@ -27,14 +27,16 @@
 % The `reedthesis' class (.cls) file has a number of options. Most of these
 % options are passed directly to the book class, but we have a number of custom options:
 % - `tocchapterdots=false' - disable the Table of Contents dots between chapters.
+%	This only affects the dots between the Chapter N: ... heading and their respective page numbers.
 % - `tocchaptername=false' - shows just "N" instead of "Chapter N" in each ToC entry.
 % - `headerstyle' - chooses the format in which header titles are displayed
 %	- `headerstyle=uppercase' - displays header titles in upper case
 %	- `headerstyle=smallcaps` - displays header titles in small caps.
-% - `coloredlinks` - displays monotone (blue) colored links.
-%	- If you go to print, and links don't show up, check your engine! This should work fine on Overleaf, but you may need to
-%		change which LaTeX engine you use (e.g. for LaTeX Workshop on Visual Studio Code, use the recipe `pdflatex')
-% - `multicoloredlinks` - displays colorful colored links - `coloredlinks` is preferred.
+% - `linkstyle' - changes the style of links. by default, this is "unstyled" (black)
+%	(Note: If you go to print, and links don't show up, check your LaTeX engine! This should work fine on Overleaf, but you may need to
+%		change which LaTeX engine you use (e.g. for LaTeX Workshop on Visual Studio Code, use the recipe `pdflatex'))
+%   - `linkstyle=web` - the color of a link is always blue ("website"-style)
+% 	- `linkstyle=labelled` - the color of a link depends on its type
 % - `bibstyle` - choose the bibliography style in use. defaults to numeric
 \documentclass[
     12pt,

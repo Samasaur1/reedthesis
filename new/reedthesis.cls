@@ -32,10 +32,6 @@
     % This allows selecting the style used for the bibliography
     bibstyle.store         = \@reedthesis@bibstyle,
     bibstyle.usage         = load,
-    % This enables the ToC dots between chapter titles and their respective (bolded) page numbers.
-    tocchapterdots.if      = @reedthesis@tocchapterdots,
-    % This enables "Chapter N" naming in the ToC, instead of just "N."
-    tocchaptername.if      = @reedthesis@tocchaptername,
     % This controls the styling of the chapter title in the header.
     % Note this applies to both the left and right groups.
     headerstyle .choice:,
@@ -43,14 +39,25 @@
     headerstyle / uppercase .code = \@reedthesis@headeruppercasetrue,
     % This makes the headers small caps
     headerstyle / smallcaps .code = \@reedthesis@headersmallcapstrue,
-    % Enables colored links. By default, these are blue.
-    coloredlinks.if        = @reedthesis@coloredlinks,
-    % Enables multicolored links that are not just blue.
-    multicoloredlinks.if   = @reedthesis@multicoloredlinks
+    % This controls the styling of links.
+    % By default, they are unstyled (black).
+    linkstyle .choice:,
+    % Enables colored links that are blue ("web") colored.
+    linkstyle / web .code        = \@reedthesis@coloredlinkstrue,
+    % Enables multicolored links that are not just blue, marked in accordance to the
+    % type of link.
+    linkstyle / labelled .code   = \@reedthesis@multicoloredlinkstrue,
+    % This enables the ToC dots between chapter titles and their respective (bolded) page numbers.
+    tocchapterdots.if      = @reedthesis@tocchapterdots,
+    % This enables "Chapter N" naming in the ToC, instead of just "N."
+    tocchaptername.if      = @reedthesis@tocchaptername
 }
 
 \newif\if@reedthesis@headeruppercase
 \newif\if@reedthesis@headersmallcaps
+
+\newif\if@reedthesis@coloredlinks
+\newif\if@reedthesis@multicoloredlinks
 
 % \ExplSyntaxOn
 % % \keys_define:nn { reedthesis }
