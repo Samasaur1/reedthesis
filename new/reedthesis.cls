@@ -28,6 +28,7 @@
 
 \LoadClassWithOptions{book}
 
+% TODO: why can't we add nls between options for organization?
 \DeclareKeys[reedthesis]{
     % This allows selecting the style used for the bibliography
     bibstyle.store         = \@reedthesis@bibstyle,
@@ -48,38 +49,32 @@
     % Enables multicolored links that are not just blue, marked in accordance to the
     % type of link.
     linkstyle / labelled .code   = \@reedthesis@multicoloredlinkstrue,
-    % This enables the ToC dots between chapter titles and their respective (bolded) page numbers.
-    tocchapterdots.if      = @reedthesis@tocchapterdots,
+    % This controls the styling of the ToC dots, allowing for levelled control of where
+    % the dots are placed. By default, this is chapter dots.
+    tocdots .choice:,
+    % This enables the ToC dots on everything: chapters and sections alike.
+    tocdots / chapter .code     = \@reedthesis@tocdotschaptertrue,
+    % This enables the ToC dots on only the sections - not on the chapter.
+    tocdots / section .code     = \@reedthesis@tocdotschapterfalse,
+    % This entirely disables the ToC dots.
+    tocdots / none .code        = \@reedthesis@tocdotschapterfalse, % 'no-op'-like
     % This enables "Chapter N" naming in the ToC, instead of just "N."
     tocchaptername.if      = @reedthesis@tocchaptername
 }
+
+% Allegedly you are supposed to be able to provide initial values
+%   with the `.initial` property in `DeclareKeys`, but this didn't
+%   work for me, so here we are.
+\newif\if@reedthesis@tocdotschapter
+\@reedthesis@tocdotschaptertrue
+\newif\if@reedthesis@tocdotssection
+\@reedthesis@tocdotssectiontrue
 
 \newif\if@reedthesis@headeruppercase
 \newif\if@reedthesis@headersmallcaps
 
 \newif\if@reedthesis@coloredlinks
 \newif\if@reedthesis@multicoloredlinks
-
-% \ExplSyntaxOn
-% % \keys_define:nn { reedthesis }
-% % {
-% %   headerstyle .choice:,
-% %   headerstyle / uppercase .if = @reedthesis@headeruppercase,
-% %   headerstyle / smallcaps .if = @reedthesis@headersmallcaps,
-% % }
-% \keys_define:nn { reedthesis }
-% {
-% headerstyle .choice:,
-% headerstyle / uppercase .code:n = \@reedthesis@headeruppercasetrue,
-% headerstyle / smallcaps .code:n = \@reedthesis@headersmallcapstrue,
-% }
-% \ExplSyntaxOff
-
-% Allegedly you are supposed to be able to provide initial values
-%   with the `.initial` property in `DeclareKeys`, but this didn't
-%   work for me, so here we are.
-\@reedthesis@tocchapterdotstrue
-\@reedthesis@tocchapternametrue
 
 \DeclareUnknownKeyHandler[reedthesis]{
   \ClassWarning{reedthesis}{Unknown option #1 (with value #2)}
@@ -172,8 +167,9 @@
   \pagestyle{fancy}
 }
 
-\if@reedthesis@tocchapterdots
-  \ClassInfo{reedthesis}{Enabling TOC chapter dots}
+% When we say 'enabling section dots,' we just lie!
+\if@reedthesis@tocdotschapter
+  \ClassInfo{reedthesis}{Enabling TOC chapter and section dots}
   \renewcommand\l@chapter[2]{%
   \ifnum \c@tocdepth >\m@ne
     \addpenalty{-\@highpenalty}%
@@ -192,7 +188,12 @@
     \endgroup
   \fi}
 \else
-  \ClassInfo{reedthesis}{TOC chapter dots disabled}
+  \if@reedthesis@tocdotssection
+    \ClassInfo{reedthesis}{ToC chapter dots disabled, ToC section dots enabled}
+  \else
+    \ClassInfo{reedthesis}{Disabling ToC section and chapter dots disabled}
+    % TODO !??!?!
+  \fi
 \fi
 
 % This option shows "Chapter 1" in ToC instead of the default "1."
