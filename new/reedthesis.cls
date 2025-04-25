@@ -49,24 +49,29 @@
     % Enables multicolored links that are not just blue, marked in accordance to the
     % type of link.
     linkstyle / labelled .code   = \@reedthesis@multicoloredlinkstrue,
+    % :n from https://tex.stackexchange.com/a/682260/386893
     % This controls the styling of the ToC dots, allowing for levelled control of where
-    % the dots are placed. By default, this is chapter dots.
-    tocdots .choice:,
-    % This enables the ToC dots on everything: chapters and sections alike.
-    tocdots / chapter .code     = \@reedthesis@tocdotschaptertrue,
-    % This enables the ToC dots on only the sections - not on the chapter.
-    tocdots / section .code     = \@reedthesis@tocdotschapterfalse,
-    % This entirely disables the ToC dots.
-    tocdots / none .code        = \@reedthesis@tocdotschapterfalse, % 'no-op'-like
+    % the dots are placed. By default, both chapter and section dots are enabled.
+    tocchapterdots .if                = @reedthesis@tocdotschapter,
+    tocchapterdots .default:n         = true,
+    notocchapterdots .ifnot           = @reedthesis@tocdotschapter,
+    notocchapterdots .default:n       = true,
+    tocchapterdots .initial:n         = true,
+    % and ToC section dots
+    tocsectiondots .if                = @reedthesis@tocdotssection,
+    tocsectiondots .default:n         = true,
+    notocsectiondots .ifnot           = @reedthesis@tocdotssection,
+    notocsectiondots .default:n       = true,
+    tocsectiondots .initial:n         = true,
     % This enables "Chapter N" naming in the ToC, instead of just "N."
-    tocchaptername.if      = @reedthesis@tocchaptername
+    tocchaptername .if      = @reedthesis@tocchaptername
 }
 
 % Allegedly you are supposed to be able to provide initial values
 %   with the `.initial` property in `DeclareKeys`, but this didn't
 %   work for me, so here we are.
-\newif\if@reedthesis@tocdotschapter
-\@reedthesis@tocdotschaptertrue
+% \newif\if@reedthesis@tocdotschapter
+% \@reedthesis@tocdotschaptertrue
 \newif\if@reedthesis@tocdotssection
 \@reedthesis@tocdotssectiontrue
 
@@ -169,7 +174,7 @@
 
 % When we say 'enabling section dots,' we just lie!
 \if@reedthesis@tocdotschapter
-  \ClassInfo{reedthesis}{Enabling TOC chapter and section dots}
+  \ClassInfo{reedthesis}{Enabling ToC chapter dots}
   \renewcommand\l@chapter[2]{%
   \ifnum \c@tocdepth >\m@ne
     \addpenalty{-\@highpenalty}%
@@ -187,12 +192,20 @@
       \penalty\@highpenalty
     \endgroup
   \fi}
+  \if@reedthesis@tocdotssection
+    \ClassInfo{reedthesis}{ToC section dots enabled}
+  \else
+    \ClassWarning{reedthesis}{ToC section dots disabling but ToC chapter dots enabling will soon be available.}
+    % TODO
+  \fi
 \else
   \if@reedthesis@tocdotssection
     \ClassInfo{reedthesis}{ToC chapter dots disabled, ToC section dots enabled}
   \else
+    % TODO this could have unintended consequences
+    \usepackage[titles]{tocloft}
+    \renewcommand{\cftdot}{}  
     \ClassInfo{reedthesis}{Disabling ToC section and chapter dots disabled}
-    % TODO !??!?!
   \fi
 \fi
 
