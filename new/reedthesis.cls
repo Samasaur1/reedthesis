@@ -90,19 +90,26 @@
 \RequirePackage{xstring}
 
 \ClassInfo{reedthesis}{Detected bibstyle: \@reedthesis@bibstyle}
-\IfEq{\@reedthesis@bibstyle}{chicago}
-{% if true
-  \ClassInfo{reedthesis}{Selecting biblatex-chicago}
-  \RequirePackage{biblatex-chicago}
+\IfEq{\@reedthesis@bibstyle}{chicago-a}
+{% chicago-a
+  \ClassInfo{reedthesis}{Selecting biblatex-chicago with notes (a)}
+  \RequirePackage[notes]{biblatex-chicago}
 }
-{% if false
-  \ClassInfo{reedthesis}{Selecting biblatex}
-  \IfEq{\@reedthesis@bibstyle}{}
-    {
-      \ClassWarning{reedthesis}{Did not specify a bibstyle: defaulting to APA}
-      \RequirePackage[style=apa]{biblatex}
-    }
-    {\RequirePackage[style=\@reedthesis@bibstyle]{biblatex}}
+{% not chicago-b
+  \IfEq{\@reedthesis@bibstyle}{chicago-b}
+  {% chicago-b
+    \ClassInfo{reedthesis}{Selecting biblatex-chicago with authordate citation (b)}
+    \RequirePackage[authordate]{biblatex-chicago}
+  }
+  {% otherwise
+    \ClassInfo{reedthesis}{Selecting biblatex}
+    \IfEq{\@reedthesis@bibstyle}{}
+      {
+        \ClassWarning{reedthesis}{Did not specify a bibstyle: defaulting to APA}
+        \RequirePackage[autocite=footnote, style=apa]{biblatex}
+      }
+      {\RequirePackage[autocite=footnote, style=\@reedthesis@bibstyle]{biblatex}}
+  }
 }
 
 \ClassInfo{reedthesis}{Detected bibfile: \@reedthesis@bibfile}

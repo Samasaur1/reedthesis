@@ -38,12 +38,12 @@
 %		change which LaTeX engine you use (e.g. for LaTeX Workshop on Visual Studio Code, use the recipe `pdflatex'))
 %   - `linkstyle=web` - the color of a link is always blue ("website"-style)
 % 	- `linkstyle=labelled` - the color of a link depends on its type
-% - `bibstyle` - choose the bibliography style in use. defaults to numeric
+% - `bibstyle` - choose the bibliography style in use. defaults to numeric. Valid options are chicago-a, chicago-b, and all other biblatex options: https://www.overleaf.com/learn/latex/Biblatex_bibliography_styles
 % - `bibfile=???.bib' - the name of the bibliography file. defaults to bibliography.bib
 \documentclass[
 	12pt,
     twoside,
-    bibstyle=ieee,
+    bibstyle=numeric,
     headerstyle=uppercase,
 ]{reedthesis}
 % Packages are extensions to the basic LaTeX functions. Whatever you
@@ -55,7 +55,7 @@
 \usepackage{amssymb,amsthm,amsmath}
 \usepackage{longtable,booktabs,setspace} 
 \usepackage{chemarr} %% Useful for one reaction arrow, useless if you're not a chem major
-\usepackage{rotating} 
+\usepackage{rotating}
 \usepackage[english]{babel}
 
 % \usepackage{times} % other fonts are available like times, bookman, charter, palatino
@@ -186,7 +186,7 @@ In other words, if you want to make a shorthand for H$_2$SO$_4$, which doesn't i
 	You might want to footnote something.\footnote{footnote text} Be sure to leave no spaces between the word immediately preceding the footnote command and the command itself. The footnote will be in a smaller font and placed appropriately. Endnotes work in much the same way. More information can be found about both on the CUS site.
 	
 \section{Bibliographies}
-	Of course you will need to cite things, and you will probably accumulate an armful of sources. This is why BibLaTeX was created. For more information about BibLaTeX and bibliographies, see our CUS site (\url{web.reed.edu/cis/help/latex/index.html})\footnote{\cite{reedweb:2007}}. There are two pages on this topic: {\it biblatex} (which talks about using BibLaTeX, at \url{/latex/biblatex.html}) and {\it bibman} (which covers how to make and maintain a bibliography by hand, without BibLaTeX, at at \url{/latex/bibman.html}). The last page will not be useful unless you have only a few sources.
+	Of course you will need to cite things, and you will probably accumulate an armful of sources. This is why BibLaTeX was created. For more information about BibLaTeX and bibliographies, see our CUS site (\url{web.reed.edu/cis/help/latex/index.html})\autocite{reedweb:2007}. There are two pages on this topic: {\it biblatex} (which talks about using BibLaTeX, at \url{/latex/biblatex.html}) and {\it bibman} (which covers how to make and maintain a bibliography by hand, without BibLaTeX, at at \url{/latex/bibman.html}). The last page will not be useful unless you have only a few sources.
 
 	We also provide convenient utilities to edit this in our template directly with the \texttt{bibstyle} option at the top of your file. This template has it set to \texttt{ieee} by default. We have special support for \texttt{chicago} and \texttt{apa}. All other styles can be found on Overleaf's BibLatex documentation: \url{https://www.overleaf.com/learn/latex/Biblatex_bibliography_styles}.
 	
@@ -197,7 +197,7 @@ In other words, if you want to make a shorthand for H$_2$SO$_4$, which doesn't i
 \item When you have more than one author or editor, you need to separate each author's name by the word ``and'' e.g.\\ \verb+Author = {Noble, Sam and Youngberg, Jessica},+.
 \item Bibliographies made using BibTeX (whether manually or using a manager) accept LaTeX markup, so you can italicize and add symbols as necessary.
 \item To force capitalization in an article title or where all lowercase is generally used, bracket the capital letter in curly braces.
-\item You can add a Reed Thesis citation\footnote{\cite{noble:2002}} option. The best way to do this is to use the phdthesis type of citation, and use the optional ``type'' field to enter ``Reed thesis'' or ``Undergraduate thesis''. Here's a test of Chicago, showing the second cite in a row\footnote{\cite{noble:2002}} being different. Also the second time not in a row\footnote{\cite{reedweb:2007}} should be different. Of course in other styles they'll all look the same.
+\item You can add a Reed Thesis citation\autocite{noble:2002} option. The best way to do this is to use the phdthesis type of citation, and use the optional ``type'' field to enter ``Reed thesis'' or ``Undergraduate thesis''. Here's a test of Chicago-b, showing the second cite in a row\autocite[Page 1]{noble:2002} being different, where chicago-b uses the ``Page 1'' postnote instead of giving the full citation Also the second time not in a row\autocite{reedweb:2007} should be different. Of course in other styles they'll all look the same.
 \end{enumerate}
 \section{Anything else?}
 If you'd like to see examples of other things in this template, please contact CUS (email cus@reed.edu) with your suggestions. We love to see people using \LaTeX\ for their theses, and are happy to help.
